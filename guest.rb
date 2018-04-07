@@ -8,11 +8,15 @@ class Guest
     @wallet = wallet
   end
 
-  def guest_has_enough_money(room)
-    if @wallet >= room.entry_fee
+  def guest_has_enough_money(karaoke_bar)
+    if @wallet >= karaoke_bar.entry_fee
       return true
     else return false
     end
+  end
+
+  def pay_entry_fee(fee)
+    @wallet -= fee
   end
 
 end

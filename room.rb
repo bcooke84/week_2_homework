@@ -1,13 +1,12 @@
 class Room
 
-  attr_reader :id, :playlist, :guest_list, :capacity, :entry_fee
+  attr_reader :id, :playlist, :guest_list, :capacity
 
-  def initialize(id, playlist, guest_list, capacity, entry_fee)
+  def initialize(id, playlist, guest_list, capacity)
     @id = id
     @playlist = playlist
     @guest_list = guest_list
     @capacity = capacity
-    @entry_fee = entry_fee
   end
 
   def add_song_to_playlist(song)
@@ -19,9 +18,10 @@ class Room
   end
 
   def check_guest_check_in(guest)
-    if check_capacity == true
-      @guest_list.push(guest)
-    else p "There's no room at the inn!"
+    if check_capacity == false
+      p "Sorry, this room is full!"
+    else @guest_list.push(guest)
+      p "Whoop, they have my favourite tune!" if check_guests_favourite_song(guest) == true
     end
   end
 
@@ -36,12 +36,19 @@ class Room
     end
   end
 
-  def check_guest_has_enough_money(guest)
-    # guest.guest_has_enough_money(room)
+  def guest_has_enough_money(guest)
     if guest.wallet >= @entry_fee
       return true
     else return false
     end
+  end
+
+  def check_guests_favourite_song(guest)
+    for song in @playlist
+      return true if guest.fave_song() == song
+    end
+  else
+    return false
   end
 
 

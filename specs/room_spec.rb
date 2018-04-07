@@ -17,9 +17,10 @@ class RoomTest < MiniTest::Test
     @guest2 = Guest.new("Upul", @song2, 40.00)
     @guest3 = Guest.new("Alistair", @song3, 50.00)
     @guest4 = Guest.new("Alan", @song4, 5.00)
+    @guest5 = Guest.new("Ally", @song3, 55.00)
     @guestlist1 = [@guest1, @guest2, @guest3]
-    @room1 = Room.new("Room 1", @playlist1, @guestlist1, 10, 7.50)
-    @room2 = Room.new("Room 2", @playlist1, @guestlist1, 3, 7.50)
+    @room1 = Room.new("Room 1", @playlist1, @guestlist1, 10)
+    @room2 = Room.new("Room 2", @playlist1, @guestlist1, 3)
   end
 
   def test_get_room_id()
@@ -38,10 +39,6 @@ class RoomTest < MiniTest::Test
     assert_equal(10, @room1.capacity)
   end
 
-  def test_get_entry_fee()
-    assert_equal(7.50, @room1.entry_fee)
-  end
-
   def test_add_song_to_room()
     @room1.add_song_to_playlist(@song4)
     assert_equal([@song1, @song2, @song3, @song4], @room1.playlist)
@@ -53,12 +50,12 @@ class RoomTest < MiniTest::Test
   end
 
   def test_check_guest_in_to_room()
-    @room1.check_guest_check_in(@guest4)
-    assert_equal([@guest1, @guest2, @guest3, @guest4], @room1.guest_list)
+    @room1.check_guest_check_in(@guest5)
+    assert_equal([@guest1, @guest2, @guest3, @guest5], @room1.guest_list)
   end
 
   def test_check_guest_in_to_room__insufficient_capacity()
-    assert_equal("There's no room at the inn!", @room2.check_guest_check_in(@guest4))
+    assert_equal("Sorry, this room is full!", @room2.check_guest_check_in(@guest4))
   end
 
   def test_check_guest_out_of_room()
@@ -74,12 +71,12 @@ class RoomTest < MiniTest::Test
     assert_equal(false, @room2.check_capacity)
   end
 
-  def test_check_guest_has_enough_money()
-    assert_equal(true, @room1.check_guest_has_enough_money(@guest1))
+  def test_check_if_guest_favourite_song_is_present()
+    assert_equal(true, @room1.check_guests_favourite_song(@guest5))
   end
 
-  def test_check_guest_does_not_have_enough_money()
-    assert_equal(false, @room1.check_guest_has_enough_money(@guest4))
+  def test_check_if_guest_favourite_song_is_not_present()
+    assert_equal(false, @room1.check_guests_favourite_song(@guest4))
   end
 
 end
