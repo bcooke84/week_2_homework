@@ -47,7 +47,6 @@ class Room
     for song in @playlist
       return true if guest.fave_song() == song
     end
-  else
     return false
   end
 
